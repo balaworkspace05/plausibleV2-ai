@@ -6,6 +6,9 @@ import { FilterDropdown, FilterOption } from '@/components/analytics/FilterDropd
 import { TopList } from '@/components/analytics/TopList';
 import { AnomalyRadar } from '@/components/features/AnomalyRadar';
 import { IndustryBenchmarks } from '@/components/features/IndustryBenchmarks';
+import { CarbonFootprint } from '@/components/features/CarbonFootprint';
+import { ABTestingLab } from '@/components/features/ABTestingLab';
+import { VisitorIntentHeatmaps } from '@/components/features/VisitorIntentHeatmaps';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 
@@ -281,7 +284,7 @@ export function Overview({ selectedProject }: OverviewProps) {
         />
       </div>
 
-      {/* Advanced Analytics Features */}
+      {/* AI-Powered Analytics Features */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <AnomalyRadar projectId={selectedProject.id} />
         <IndustryBenchmarks 
@@ -292,6 +295,21 @@ export function Overview({ selectedProject }: OverviewProps) {
             conversionRate: 2.8,
           }}
         />
+      </div>
+
+      {/* Next-Gen Features Row 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <CarbonFootprint 
+          projectId={selectedProject.id}
+          monthlyVisitors={metricsData?.uniqueVisitors?.value || 1000}
+          avgPageSize={245} // KB
+        />
+        <ABTestingLab projectId={selectedProject.id} />
+      </div>
+
+      {/* Next-Gen Features Row 2 */}
+      <div className="grid grid-cols-1 gap-6">
+        <VisitorIntentHeatmaps projectId={selectedProject.id} />
       </div>
     </div>
   );
