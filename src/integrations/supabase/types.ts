@@ -14,7 +14,260 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ab_tests: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          project_id: string
+          status: string
+          variant_a: string
+          variant_b: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          project_id: string
+          status?: string
+          variant_a: string
+          variant_b: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          project_id?: string
+          status?: string
+          variant_a?: string
+          variant_b?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_tests_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      anomalies: {
+        Row: {
+          actual_value: number
+          detected_at: string
+          expected_value: number
+          id: string
+          is_resolved: boolean | null
+          metric_type: string
+          project_id: string
+          severity: string
+        }
+        Insert: {
+          actual_value: number
+          detected_at?: string
+          expected_value: number
+          id?: string
+          is_resolved?: boolean | null
+          metric_type: string
+          project_id: string
+          severity: string
+        }
+        Update: {
+          actual_value?: number
+          detected_at?: string
+          expected_value?: number
+          id?: string
+          is_resolved?: boolean | null
+          metric_type?: string
+          project_id?: string
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anomalies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          browser: string | null
+          country: string | null
+          event_name: string
+          id: string
+          os: string | null
+          project_id: string
+          referrer: string | null
+          session_id: string | null
+          timestamp: string
+          url: string
+        }
+        Insert: {
+          browser?: string | null
+          country?: string | null
+          event_name?: string
+          id?: string
+          os?: string | null
+          project_id: string
+          referrer?: string | null
+          session_id?: string | null
+          timestamp?: string
+          url: string
+        }
+        Update: {
+          browser?: string | null
+          country?: string | null
+          event_name?: string
+          id?: string
+          os?: string | null
+          project_id?: string
+          referrer?: string | null
+          session_id?: string | null
+          timestamp?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      heatmap_events: {
+        Row: {
+          click_x: number | null
+          click_y: number | null
+          id: string
+          page_url: string
+          project_id: string
+          scroll_depth: number | null
+          timestamp: string
+          viewport_height: number | null
+          viewport_width: number | null
+        }
+        Insert: {
+          click_x?: number | null
+          click_y?: number | null
+          id?: string
+          page_url: string
+          project_id: string
+          scroll_depth?: number | null
+          timestamp?: string
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Update: {
+          click_x?: number | null
+          click_y?: number | null
+          id?: string
+          page_url?: string
+          project_id?: string
+          scroll_depth?: number | null
+          timestamp?: string
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "heatmap_events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      industry_benchmarks: {
+        Row: {
+          avg_bounce: number
+          avg_conversion: number
+          avg_session_duration: number
+          id: string
+          industry: string
+          updated_at: string
+        }
+        Insert: {
+          avg_bounce?: number
+          avg_conversion?: number
+          avg_session_duration?: number
+          id?: string
+          industry: string
+          updated_at?: string
+        }
+        Update: {
+          avg_bounce?: number
+          avg_conversion?: number
+          avg_session_duration?: number
+          id?: string
+          industry?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          domain: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
