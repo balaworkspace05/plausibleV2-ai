@@ -1,5 +1,5 @@
 import React from 'react';
-import { ABTestingLab } from '@/components/features/ABTestingLab';
+import { CarbonFootprint } from '@/components/features/CarbonFootprint';
 
 interface Project {
   id: string;
@@ -8,26 +8,28 @@ interface Project {
   created_at: string;
 }
 
-interface ABTestingProps {
+interface CarbonImpactProps {
   selectedProject?: Project | null;
 }
 
-export function ABTesting({ selectedProject }: ABTestingProps) {
+export function CarbonImpact({ selectedProject }: CarbonImpactProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground mb-2">
-          A/B Testing Lab
+          Carbon Impact Analytics
         </h1>
         <p className="text-muted-foreground">
-          Create and manage experiments to optimize your conversion rates
+          Monitor and optimize your website's environmental footprint
         </p>
       </div>
 
-      {/* A/B Testing Lab Component */}
-      <ABTestingLab 
+      {/* Carbon Footprint Component */}
+      <CarbonFootprint 
         projectId={selectedProject?.id || 'demo'}
+        monthlyVisitors={12500}
+        avgPageSize={850} // KB
       />
     </div>
   );

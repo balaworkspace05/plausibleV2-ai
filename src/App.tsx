@@ -13,6 +13,10 @@ import { PageViews } from "./pages/dashboard/PageViews";
 import { Sources } from "./pages/dashboard/Sources";
 import { RealTime } from "./pages/dashboard/RealTime";
 import { ABTesting } from "./pages/dashboard/ABTesting";
+import { Benchmarks } from "./pages/dashboard/Benchmarks";
+import { AnomalyRadar } from "./pages/dashboard/AnomalyRadar";
+import { CarbonImpact } from "./pages/dashboard/CarbonImpact";
+import { VisitorHeatmaps } from "./pages/dashboard/VisitorHeatmaps";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,9 +37,10 @@ const App = () => (
             <Route path="/dashboard/sources" element={<DashboardLayout><Sources /></DashboardLayout>} />
             <Route path="/dashboard/realtime" element={<DashboardLayout><RealTime /></DashboardLayout>} />
             <Route path="/dashboard/ab-testing" element={<DashboardLayout><ABTesting /></DashboardLayout>} />
-            <Route path="/dashboard/benchmarks" element={<DashboardLayout><div>Benchmarks coming soon</div></DashboardLayout>} />
-            <Route path="/dashboard/ai-assistant" element={<DashboardLayout><div>AI Assistant coming soon</div></DashboardLayout>} />
-            <Route path="/dashboard/carbon" element={<DashboardLayout><div>Carbon Impact coming soon</div></DashboardLayout>} />
+            <Route path="/dashboard/benchmarks" element={<DashboardLayout><Benchmarks /></DashboardLayout>} />
+            <Route path="/dashboard/anomaly-radar" element={<DashboardLayout><AnomalyRadar /></DashboardLayout>} />
+            <Route path="/dashboard/carbon" element={<DashboardLayout><CarbonImpact /></DashboardLayout>} />
+            <Route path="/dashboard/visitor-heatmaps" element={<DashboardLayout><VisitorHeatmaps /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><div>Settings coming soon</div></DashboardLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

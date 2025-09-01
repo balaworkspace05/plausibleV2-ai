@@ -40,8 +40,9 @@ const proItems = [
 ];
 
 const aiItems = [
-  { title: "AI Assistant", url: "/dashboard/ai-assistant", icon: Bot },
+  { title: "Anomaly Radar", url: "/dashboard/anomaly-radar", icon: Bot },
   { title: "Carbon Impact", url: "/dashboard/carbon", icon: Leaf },
+  { title: "Visitor Heatmaps", url: "/dashboard/visitor-heatmaps", icon: Activity },
 ];
 
 const settingsItems = [
