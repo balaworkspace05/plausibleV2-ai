@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { DashboardHeader } from "./DashboardHeader";
-import { DashboardSidebar } from "./DashboardSidebar";
-
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
+import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { TopBar } from '@/components/layout/TopBar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  const { user, loading } = useAuth();
   const [isDark, setIsDark] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
@@ -32,15 +32,30 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     }
   };
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader onThemeToggle={toggleTheme} isDark={isDark} />
-      <div className="flex">
-        <DashboardSidebar />
-        <main className="flex-1 p-6">
-          {children}
-        </main>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <TopBar 
+            selectedProject={selectedProject}
+            onProjectSelect={setSelectedProject}
+            isDark={isDark}
+            onThemeToggle={toggleTheme}
+          />
+          <main className="flex-1 p-6">
+            {React.cloneElement(children as React.ReactElement, { selectedProject })}
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
