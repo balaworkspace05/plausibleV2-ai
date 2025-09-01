@@ -14,7 +14,7 @@ interface Project {
 }
 
 interface VisitorsProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 export function Visitors({ selectedProject }: VisitorsProps) {

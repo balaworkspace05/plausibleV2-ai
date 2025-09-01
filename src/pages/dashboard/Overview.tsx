@@ -16,7 +16,7 @@ interface Project {
 }
 
 interface OverviewProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 export function Overview({ selectedProject }: OverviewProps) {

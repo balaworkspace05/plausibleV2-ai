@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { TopBar } from '@/components/layout/TopBar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
+
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { user, loading } = useAuth();

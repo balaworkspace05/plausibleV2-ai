@@ -10,7 +10,7 @@ interface Project {
 }
 
 interface ABTestingProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 export function ABTesting({ selectedProject }: ABTestingProps) {

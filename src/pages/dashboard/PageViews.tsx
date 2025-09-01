@@ -15,7 +15,7 @@ interface Project {
 }
 
 interface PageViewsProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 export function PageViews({ selectedProject }: PageViewsProps) {

@@ -13,7 +13,7 @@ interface Project {
 }
 
 interface RealTimeProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 interface LiveVisitor {

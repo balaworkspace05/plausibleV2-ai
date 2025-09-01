@@ -14,7 +14,7 @@ interface Project {
 }
 
 interface SourcesProps {
-  selectedProject: Project | null;
+  selectedProject?: Project | null;
 }
 
 export function Sources({ selectedProject }: SourcesProps) {
