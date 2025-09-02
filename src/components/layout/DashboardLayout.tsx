@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { TopBar } from '@/components/layout/TopBar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import { FloatingChatbot } from '@/components/features/FloatingChatbot';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -59,6 +60,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             {React.cloneElement(children as React.ReactElement, { selectedProject })}
           </main>
         </div>
+        <FloatingChatbot selectedProject={selectedProject} />
       </div>
     </SidebarProvider>
   );
