@@ -63,7 +63,25 @@ export function Visitors({ selectedProject }: VisitorsProps) {
         pageviews: 0, // Not needed for this chart
       }));
 
-      setVisitorsData(processedData.slice(-30)); // Last 30 days
+      // Use demo chart data if no real data
+      const demoChartData = [
+        { date: 'Jan 1', visitors: 2400, pageviews: 0 },
+        { date: 'Jan 2', visitors: 1398, pageviews: 0 },
+        { date: 'Jan 3', visitors: 4800, pageviews: 0 },
+        { date: 'Jan 4', visitors: 3908, pageviews: 0 },
+        { date: 'Jan 5', visitors: 4200, pageviews: 0 },
+        { date: 'Jan 6', visitors: 3800, pageviews: 0 },
+        { date: 'Jan 7', visitors: 4300, pageviews: 0 },
+        { date: 'Jan 8', visitors: 5200, pageviews: 0 },
+        { date: 'Jan 9', visitors: 2900, pageviews: 0 },
+        { date: 'Jan 10', visitors: 6100, pageviews: 0 },
+        { date: 'Jan 11', visitors: 4400, pageviews: 0 },
+        { date: 'Jan 12', visitors: 5800, pageviews: 0 },
+        { date: 'Jan 13', visitors: 4200, pageviews: 0 },
+        { date: 'Jan 14', visitors: 4900, pageviews: 0 },
+      ];
+
+      setVisitorsData(processedData.length > 0 ? processedData.slice(-30) : demoChartData);
 
       // Calculate metrics
       const totalVisitors = new Set(events?.map(e => e.session_id) || []).size;
@@ -79,12 +97,21 @@ export function Visitors({ selectedProject }: VisitorsProps) {
       const bouncedSessions = Object.values(sessionCounts).filter(count => count === 1).length;
       const bounceRate = totalVisitors > 0 ? ((bouncedSessions / totalVisitors) * 100).toFixed(1) : '0';
 
-      setMetrics({
+      // Use demo data if no real data available
+      const hasRealData = totalVisitors > 0;
+      const demoMetrics = {
+        totalVisitors: 47200,
+        avgPageviews: '3.2',
+        bounceRate: '24.3',
+        newVisitors: 34464,
+      };
+
+      setMetrics(hasRealData ? {
         totalVisitors,
         avgPageviews,
         bounceRate,
-        newVisitors: Math.round(totalVisitors * 0.73), // Mock calculation
-      });
+        newVisitors: Math.round(totalVisitors * 0.73),
+      } : demoMetrics);
 
       // Process device stats
       const osStats = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -102,7 +129,16 @@ export function Visitors({ selectedProject }: VisitorsProps) {
           percentage: Math.round((value / (events?.length || 1)) * 100),
         }));
 
-      setDeviceStats(deviceData);
+      // Use demo data if no real data
+      const demoDeviceData = [
+        { name: 'Windows', value: 28480, percentage: 60 },
+        { name: 'macOS', value: 11832, percentage: 25 },
+        { name: 'iOS', value: 4720, percentage: 10 },
+        { name: 'Android', value: 1888, percentage: 4 },
+        { name: 'Linux', value: 472, percentage: 1 },
+      ];
+
+      setDeviceStats(deviceData.length > 0 ? deviceData : demoDeviceData);
 
       // Process browser stats  
       const browserStatsData = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -120,7 +156,16 @@ export function Visitors({ selectedProject }: VisitorsProps) {
           percentage: Math.round((value / (events?.length || 1)) * 100),
         }));
 
-      setBrowserStats(browserData);
+      // Use demo data if no real data
+      const demoBrowserData = [
+        { name: 'Chrome', value: 33040, percentage: 70 },
+        { name: 'Safari', value: 9440, percentage: 20 },
+        { name: 'Firefox', value: 2360, percentage: 5 },
+        { name: 'Edge', value: 1888, percentage: 4 },
+        { name: 'Opera', value: 472, percentage: 1 },
+      ];
+
+      setBrowserStats(browserData.length > 0 ? browserData : demoBrowserData);
 
     } catch (error) {
       console.error('Error loading visitors data:', error);

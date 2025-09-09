@@ -105,6 +105,22 @@ export function RealTime({ selectedProject }: RealTimeProps) {
 
       setRecentEvents(recentEventsData || []);
 
+      // Demo recent events if no real activity
+      const demoRecentEvents = recentEventsData && recentEventsData.length === 0 ? [
+        { id: 'demo-1', event_name: 'pageview', url: 'https://example.com/', timestamp: new Date(Date.now() - 15000), country: 'United States', browser: 'Chrome' },
+        { id: 'demo-2', event_name: 'pageview', url: 'https://example.com/pricing', timestamp: new Date(Date.now() - 35000), country: 'United Kingdom', browser: 'Safari' },
+        { id: 'demo-3', event_name: 'pageview', url: 'https://example.com/features', timestamp: new Date(Date.now() - 67000), country: 'Germany', browser: 'Firefox' },
+        { id: 'demo-4', event_name: 'pageview', url: 'https://example.com/blog', timestamp: new Date(Date.now() - 89000), country: 'France', browser: 'Chrome' },
+        { id: 'demo-5', event_name: 'pageview', url: 'https://example.com/about', timestamp: new Date(Date.now() - 124000), country: 'Canada', browser: 'Edge' },
+        { id: 'demo-6', event_name: 'pageview', url: 'https://example.com/', timestamp: new Date(Date.now() - 156000), country: 'Australia', browser: 'Chrome' },
+        { id: 'demo-7', event_name: 'pageview', url: 'https://example.com/pricing', timestamp: new Date(Date.now() - 189000), country: 'Netherlands', browser: 'Safari' },
+        { id: 'demo-8', event_name: 'pageview', url: 'https://example.com/contact', timestamp: new Date(Date.now() - 234000), country: 'Sweden', browser: 'Chrome' },
+      ] : [];
+
+      if (demoRecentEvents.length > 0) {
+        setRecentEvents(demoRecentEvents);
+      }
+
       // Calculate active visitors (unique sessions in last 5 minutes)
       const activeSessions = new Set(recentEventsData?.map(e => e.session_id) || []);
       
@@ -126,15 +142,24 @@ export function RealTime({ selectedProject }: RealTimeProps) {
         }
       })() : 'No data';
 
-      setRealTimeMetrics({
+      // Use demo metrics if no real activity
+      const hasRealActivity = activeSessions.size > 0 || pageviewsLastHour > 0;
+      const demoMetrics = {
+        activeVisitors: 12,
+        pageviewsLastHour: 247,
+        topPage: '/pricing',
+        averageTime: '2:34'
+      };
+
+      setRealTimeMetrics(hasRealActivity ? {
         activeVisitors: activeSessions.size,
         pageviewsLastHour,
         topPage,
-        averageTime: '2:34' // Mock data
-      });
+        averageTime: '2:34'
+      } : demoMetrics);
 
       // Generate live visitors data (mock enhanced with real data)
-      const mockVisitors: LiveVisitor[] = Array.from(activeSessions).slice(0, 10).map((sessionId, index) => {
+      const realVisitors: LiveVisitor[] = Array.from(activeSessions).slice(0, 10).map((sessionId, index) => {
         const recentEvent = recentEventsData?.find(e => e.session_id === sessionId);
         return {
           id: sessionId as string,
@@ -152,7 +177,16 @@ export function RealTime({ selectedProject }: RealTimeProps) {
         };
       });
 
-      setLiveVisitors(mockVisitors);
+      // Demo visitors if no real activity
+      const demoVisitors: LiveVisitor[] = activeSessions.size === 0 ? [
+        { id: 'demo-1', location: 'United States', page: '/', referrer: 'google.com', timestamp: new Date(Date.now() - 45000), duration: 145 },
+        { id: 'demo-2', location: 'United Kingdom', page: '/pricing', referrer: 'Direct', timestamp: new Date(Date.now() - 80000), duration: 230 },
+        { id: 'demo-3', location: 'Germany', page: '/features', referrer: 'twitter.com', timestamp: new Date(Date.now() - 120000), duration: 95 },
+        { id: 'demo-4', location: 'France', page: '/blog', referrer: 'facebook.com', timestamp: new Date(Date.now() - 160000), duration: 320 },
+        { id: 'demo-5', location: 'Canada', page: '/about', referrer: 'linkedin.com', timestamp: new Date(Date.now() - 200000), duration: 180 },
+      ] : [];
+
+      setLiveVisitors(realVisitors.length > 0 ? realVisitors : demoVisitors);
 
     } catch (error) {
       console.error('Error loading real-time data:', error);

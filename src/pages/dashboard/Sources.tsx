@@ -94,7 +94,16 @@ export function Sources({ selectedProject }: SourcesProps) {
           percentage: Math.round((value / totalTraffic) * 100),
         }));
 
-      setTopSources(processedTopSources);
+      // Use demo data if no real data
+      const demoTopSources = [
+        { name: 'google.com', value: 24650, percentage: 42 },
+        { name: 'Direct', value: 17680, percentage: 30 },
+        { name: 'twitter.com', value: 8840, percentage: 15 },
+        { name: 'facebook.com', value: 4720, percentage: 8 },
+        { name: 'linkedin.com', value: 2950, percentage: 5 },
+      ];
+
+      setTopSources(processedTopSources.length > 0 ? processedTopSources : demoTopSources);
 
       // Mock search engines data
       const searchEnginesData = [

@@ -66,7 +66,25 @@ export function PageViews({ selectedProject }: PageViewsProps) {
         visitors: day.visitors.size,
       }));
 
-      setPageviewsData(processedData.slice(-30)); // Last 30 days
+      // Use demo chart data if no real data
+      const demoChartData = [
+        { date: 'Jan 1', pageviews: 4800, visitors: 2400 },
+        { date: 'Jan 2', pageviews: 2796, visitors: 1398 },
+        { date: 'Jan 3', pageviews: 9600, visitors: 4800 },
+        { date: 'Jan 4', pageviews: 7816, visitors: 3908 },
+        { date: 'Jan 5', pageviews: 8400, visitors: 4200 },
+        { date: 'Jan 6', pageviews: 7600, visitors: 3800 },
+        { date: 'Jan 7', pageviews: 8600, visitors: 4300 },
+        { date: 'Jan 8', pageviews: 10400, visitors: 5200 },
+        { date: 'Jan 9', pageviews: 5800, visitors: 2900 },
+        { date: 'Jan 10', pageviews: 12200, visitors: 6100 },
+        { date: 'Jan 11', pageviews: 8800, visitors: 4400 },
+        { date: 'Jan 12', pageviews: 11600, visitors: 5800 },
+        { date: 'Jan 13', pageviews: 8400, visitors: 4200 },
+        { date: 'Jan 14', pageviews: 9800, visitors: 4900 },
+      ];
+
+      setPageviewsData(processedData.length > 0 ? processedData.slice(-30) : demoChartData);
 
       // Calculate metrics
       const totalPageviews = events?.length || 0;
@@ -74,12 +92,21 @@ export function PageViews({ selectedProject }: PageViewsProps) {
       const totalVisitors = new Set(events?.map(e => e.session_id) || []).size;
       const avgPagesPerVisit = totalVisitors > 0 ? (totalPageviews / totalVisitors).toFixed(1) : '0';
 
-      setMetrics({
+      // Use demo data if no real data available
+      const hasRealData = totalPageviews > 0;
+      const demoMetrics = {
+        totalPageviews: 142800,
+        uniquePageviews: 98340,
+        avgPagesPerVisit: '3.2',
+        avgTimeOnPage: '2:34',
+      };
+
+      setMetrics(hasRealData ? {
         totalPageviews,
         uniquePageviews,
         avgPagesPerVisit,
-        avgTimeOnPage: '2:34', // Mock data
-      });
+        avgTimeOnPage: '2:34',
+      } : demoMetrics);
 
       // Process top pages
       const pageStats = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -104,7 +131,16 @@ export function PageViews({ selectedProject }: PageViewsProps) {
           url
         }));
 
-      setTopPages(processedTopPages);
+      // Use demo data if no real data
+      const demoTopPages = [
+        { name: 'Home', value: 64620, percentage: 45, url: '/' },
+        { name: 'Pricing', value: 45780, percentage: 32, url: '/pricing' },
+        { name: 'Features', value: 22284, percentage: 16, url: '/features' },
+        { name: 'About', value: 6283, percentage: 4, url: '/about' },
+        { name: 'Blog', value: 3568, percentage: 3, url: '/blog' },
+      ];
+
+      setTopPages(processedTopPages.length > 0 ? processedTopPages : demoTopPages);
 
       // Mock entry pages (first page in session)
       const entryPagesData = processedTopPages.slice(0, 5).map((page, index) => ({

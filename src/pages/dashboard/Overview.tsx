@@ -99,12 +99,25 @@ export function Overview({ selectedProject }: OverviewProps) {
         };
       };
 
-      setMetricsData({
-        uniqueVisitors: { value: uniqueVisitors, change: calcChange(uniqueVisitors, prevUniqueVisitors) },
-        totalVisits: { value: totalVisits, change: calcChange(totalVisits, prevTotalVisits) },
-        pageviews: { value: totalPageviews, change: calcChange(totalPageviews, prevTotalPageviews) },
-        viewsPerVisit: { value: viewsPerVisit, change: calcChange(viewsPerVisit, prevViewsPerVisit) },
-      });
+      // Use demo data if no real data available
+      const hasRealData = totalPageviews > 0;
+      
+      if (hasRealData) {
+        setMetricsData({
+          uniqueVisitors: { value: uniqueVisitors, change: calcChange(uniqueVisitors, prevUniqueVisitors) },
+          totalVisits: { value: totalVisits, change: calcChange(totalVisits, prevTotalVisits) },
+          pageviews: { value: totalPageviews, change: calcChange(totalPageviews, prevTotalPageviews) },
+          viewsPerVisit: { value: viewsPerVisit, change: calcChange(viewsPerVisit, prevViewsPerVisit) },
+        });
+      } else {
+        // Demo metrics data
+        setMetricsData({
+          uniqueVisitors: { value: 47200, change: { value: 12.5, trend: 'up' as const } },
+          totalVisits: { value: 52800, change: { value: 8.7, trend: 'up' as const } },
+          pageviews: { value: 142800, change: { value: 15.3, trend: 'up' as const } },
+          viewsPerVisit: { value: 2.7, change: { value: 5.2, trend: 'up' as const } },
+        });
+      }
 
       // Process chart data (group by day)
       const dailyData = (events || []).reduce((acc: Record<string, any>, event) => {
@@ -127,7 +140,25 @@ export function Overview({ selectedProject }: OverviewProps) {
         }))
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-      setChartData(processedChartData);
+      // Use demo chart data if no real data
+      const demoChartData = [
+        { date: 'Jan 1', visitors: 2400, pageviews: 4800, sessions: 2400 },
+        { date: 'Jan 2', visitors: 1398, pageviews: 2796, sessions: 1398 },
+        { date: 'Jan 3', visitors: 4800, pageviews: 9600, sessions: 4800 },
+        { date: 'Jan 4', visitors: 3908, pageviews: 7816, sessions: 3908 },
+        { date: 'Jan 5', visitors: 4200, pageviews: 8400, sessions: 4200 },
+        { date: 'Jan 6', visitors: 3800, pageviews: 7600, sessions: 3800 },
+        { date: 'Jan 7', visitors: 4300, pageviews: 8600, sessions: 4300 },
+        { date: 'Jan 8', visitors: 5200, pageviews: 10400, sessions: 5200 },
+        { date: 'Jan 9', visitors: 2900, pageviews: 5800, sessions: 2900 },
+        { date: 'Jan 10', visitors: 6100, pageviews: 12200, sessions: 6100 },
+        { date: 'Jan 11', visitors: 4400, pageviews: 8800, sessions: 4400 },
+        { date: 'Jan 12', visitors: 5800, pageviews: 11600, sessions: 5800 },
+        { date: 'Jan 13', visitors: 4200, pageviews: 8400, sessions: 4200 },
+        { date: 'Jan 14', visitors: 4900, pageviews: 9800, sessions: 4900 },
+      ];
+
+      setChartData(hasRealData ? processedChartData : demoChartData);
 
       // Process top pages
       const pageStats = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -145,7 +176,16 @@ export function Overview({ selectedProject }: OverviewProps) {
           url
         }));
 
-      setTopPages(processedTopPages);
+      // Use demo data if no real data
+      const demoTopPages = [
+        { name: 'Home', value: 64620, percentage: 45, url: '/' },
+        { name: 'Pricing', value: 45780, percentage: 32, url: '/pricing' },
+        { name: 'Features', value: 22284, percentage: 16, url: '/features' },
+        { name: 'About', value: 6283, percentage: 4, url: '/about' },
+        { name: 'Blog', value: 4277, percentage: 3, url: '/blog' },
+      ];
+
+      setTopPages(hasRealData ? processedTopPages : demoTopPages);
 
       // Process top sources
       const referrerStats = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -169,7 +209,16 @@ export function Overview({ selectedProject }: OverviewProps) {
           percentage: Math.round((value / (events?.length || 1)) * 100),
         }));
 
-      setTopSources(processedTopSources);
+      // Use demo data if no real data
+      const demoTopSources = [
+        { name: 'google.com', value: 60270, percentage: 42 },
+        { name: 'Direct', value: 42840, percentage: 30 },
+        { name: 'twitter.com', value: 21420, percentage: 15 },
+        { name: 'facebook.com', value: 11424, percentage: 8 },
+        { name: 'linkedin.com', value: 7140, percentage: 5 },
+      ];
+
+      setTopSources(hasRealData ? processedTopSources : demoTopSources);
 
       // Process top countries
       const countryStats = (events || []).reduce((acc: Record<string, number>, event) => {
@@ -187,7 +236,16 @@ export function Overview({ selectedProject }: OverviewProps) {
           percentage: Math.round((value / (events?.length || 1)) * 100),
         }));
 
-      setTopCountries(processedTopCountries);
+      // Use demo data if no real data
+      const demoTopCountries = [
+        { name: 'United States', value: 55272, percentage: 39 },
+        { name: 'United Kingdom', value: 26796, percentage: 19 },
+        { name: 'Germany', value: 21284, percentage: 15 },
+        { name: 'Canada', value: 15708, percentage: 11 },
+        { name: 'France', value: 12852, percentage: 9 },
+      ];
+
+      setTopCountries(hasRealData ? processedTopCountries : demoTopCountries);
 
     } catch (error) {
       console.error('Error loading analytics data:', error);
